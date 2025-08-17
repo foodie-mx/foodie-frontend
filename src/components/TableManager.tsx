@@ -4,7 +4,7 @@ import type {MenuItem, Order, OrderItem, Table} from "../model/Types.ts";
 import {useState} from "react";
 import {computeOrderTotal, currency} from "../model/Utils.ts";
 
-function TableManager({
+const TableManager=({
                           tables,
                           orders,
                           menuItems,
@@ -20,7 +20,7 @@ function TableManager({
     onCreateOrder: (o: Omit<Order, 'id' | 'createdAt' | 'status'>) => void
     onUpdateOrderStatus: (id: string, s: Order['status']) => void
     onMarkTableClean: (tableId: string) => void
-}) {
+})=> {
     const [selectedTable, setSelectedTable] = useState<string>('')
     const [composerItems, setComposerItems] = useState<OrderItem[]>([])
     const [filter, setFilter] = useState<'all' | 'available' | 'occupied' | 'needs_cleaning'>('all')
