@@ -313,8 +313,8 @@ function Header({ tab, setTab }: { tab: 'dashboard' | 'menu' | 'tables'; setTab:
         <header className="bg-white/80 backdrop-blur sticky top-0 z-10 border-b">
             <div className="mx-auto max-w-7xl p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-2xl bg-indigo-600 text-white grid place-items-center font-bold">RM</div>
-                    <h1 className="text-xl sm:text-2xl font-semibold">Restaurant Manager</h1>
+                    <div className="h-10 w-10 rounded-2xl bg-indigo-600 text-white grid place-items-center font-bold">Fd</div>
+                    <h1 className="text-xl sm:text-2xl font-semibold">Foodie MX</h1>
                 </div>
                 <nav className="flex gap-2">
                     {[
