@@ -47,37 +47,7 @@ import {
     BarChart,
     Bar,
 } from 'recharts'
-
-// -------------------------- Types --------------------------
-type Modifier = { name: string; priceDelta: number }
-
-type MenuItem = {
-    id: string
-    name: string
-    category: string
-    price: number
-    modifiers: Modifier[]
-}
-
-type Table = {
-    id: string
-    name: string
-    status: 'available' | 'occupied' | 'needs_cleaning'
-}
-
-type OrderItem = {
-    menuItemId: string
-    modifierName?: string
-    qty: number
-}
-
-type Order = {
-    id: string
-    tableId: string
-    items: OrderItem[]
-    status: 'in_progress' | 'served' | 'paid'
-    createdAt: string // ISO
-}
+import type {MenuItem, Order, OrderItem, Table} from "./model/Types.ts";
 
 // -------------------------- Utils --------------------------
 const currency = (n: number) => n.toLocaleString(undefined, { style: 'currency', currency: 'USD' })
