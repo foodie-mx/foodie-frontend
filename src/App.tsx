@@ -48,31 +48,7 @@ import {
     Bar,
 } from 'recharts'
 import type {MenuItem, Order, OrderItem, Table} from "./model/Types.ts";
-
-// -------------------------- Utils --------------------------
-const currency = (n: number) => n.toLocaleString(undefined, { style: 'currency', currency: 'USD' })
-const uid = () => Math.random().toString(36).slice(2, 10)
-
-const startOfDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate())
-const isSameDay = (a: Date, b: Date) => startOfDay(a).getTime() === startOfDay(b).getTime()
-
-const withinLastNDays = (dateISO: string, n: number) => {
-    const d = new Date(dateISO)
-    const now = new Date()
-    const start = new Date(startOfDay(now).getTime() - (n - 1) * 86400000)
-    return d >= start && d <= now
-}
-
-// total reflects base price + modifier delta * qty
-function computeOrderTotal(order: Order, menuIndex: Record<string, MenuItem>): number {
-    return order.items.reduce((sum, it) => {
-        const mi = menuIndex[it.menuItemId]
-        if (!mi) return sum
-        const mod = it.modifierName ? mi.modifiers.find(m => m.name === it.modifierName) : undefined
-        const price = mi.price + (mod?.priceDelta ?? 0)
-        return sum + price * it.qty
-    }, 0)
-}
+import {computeOrderTotal, currency, isSameDay, uid, withinLastNDays} from "./model/Utils.ts";
 
 // -------------------------- Seed Data --------------------------
 const seedMenu: MenuItem[] = [
