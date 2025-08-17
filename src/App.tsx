@@ -34,7 +34,7 @@
 //   - Optional: tick timer to mark some orders "served" for demo
 // =============================================================================
 
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
     ResponsiveContainer,
     LineChart,
@@ -341,7 +341,6 @@ function Header({ tab, setTab }: { tab: 'dashboard' | 'menu' | 'tables'; setTab:
 // -------------------------- Dashboard --------------------------
 function Dashboard({
                        orders,
-                       menuItems,
                        menuIndex,
                    }: {
     orders: Order[]
