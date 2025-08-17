@@ -50,31 +50,7 @@ import {
 import type {MenuItem, Order, OrderItem, Table} from "./model/Types.ts";
 import {computeOrderTotal, currency, isSameDay, uid, withinLastNDays} from "./model/Utils.ts";
 import {seedMenu, seedOrders, seedTables} from "./model/SeedData.ts";
-
-
-
-// -------------------------- Storage --------------------------
-const LS_KEY = 'restaurant_manager_state_v1'
-
-type Persisted = { menuItems: MenuItem[]; tables: Table[]; orders: Order[] }
-
-function loadState(): Persisted | null {
-    try {
-        const raw = localStorage.getItem(LS_KEY)
-        if (!raw) return null
-        return JSON.parse(raw)
-    } catch {
-        return null
-    }
-}
-
-function saveState(state: Persisted) {
-    try {
-        localStorage.setItem(LS_KEY, JSON.stringify(state))
-    } catch {
-        // ignore
-    }
-}
+import {loadState, saveState} from "./model/Storage.ts";
 
 // -------------------------- App --------------------------
 export default function App() {
