@@ -42,5 +42,8 @@
     "Mark Clean": "Marcar como limpia",
     "No orders.": "No hay órdenes.",
     "Table Manager": "Gestor de mesas",
-    "Dashboard": "Tablero"
+    "Dashboard": "Tablero",
+    "In Progress": "En progreso",
+    "Served": "Servido",
+    "Paid": "Pagado"
 }
