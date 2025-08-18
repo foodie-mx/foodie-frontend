@@ -1,7 +1,7 @@
 // -------------------------- Dashboard --------------------------
-import type {MenuItem, Order} from "../model/Types.ts";
-import {useMemo} from "react";
-import {computeOrderTotal, currency, isSameDay, withinLastNDays} from "../model/Utils.ts";
+import type { MenuItem, Order } from "../model/Types.ts";
+import { useMemo } from "react";
+import { computeOrderTotal, currency, isSameDay, withinLastNDays } from "../model/Utils.ts";
 import {
     Bar,
     BarChart,
@@ -15,15 +15,17 @@ import {
     YAxis
 } from "recharts";
 import KPI from "./KPI.tsx";
+import { useTranslation } from "react-i18next";
 
 export default function Dashboard({
-                       orders,
-                       menuIndex,
-                   }: {
+    orders,
+    menuIndex,
+}: {
     orders: Order[]
     menuItems: MenuItem[]
     menuIndex: Record<string, MenuItem>
 }) {
+    const { t } = useTranslation();
     const now = new Date()
     const daySum = useMemo(() =>
         orders
@@ -71,14 +73,14 @@ export default function Dashboard({
     return (
         <section className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <KPI title="Today" value={currency(daySum)} subtitle="Sales" color="indigo" />
-                <KPI title="Last 7 days" value={currency(weekSum)} subtitle="Sales" color="emerald" />
-                <KPI title="Last 30 days" value={currency(monthSum)} subtitle="Sales" color="amber" />
+                <KPI title={t("Today")} value={currency(daySum)} subtitle={t("Sales")} color="indigo" />
+                <KPI title={t("Last 7 days")} value={currency(weekSum)} subtitle={t("Sales")} color="emerald" />
+                <KPI title={t("Last 30 days")} value={currency(monthSum)} subtitle={t("Sales")} color="amber" />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border p-4">
-                    <h3 className="font-semibold mb-3">Sales Trend (last 14 days)</h3>
+                    <h3 className="font-semibold mb-3">{t("Sales Trend (last 14 days)")}</h3>
                     <div className="h-64">
                         <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={last14Days} margin={{ left: -10, right: 10 }}>
@@ -93,7 +95,7 @@ export default function Dashboard({
                     </div>
                 </div>
                 <div className="bg-white rounded-2xl shadow-sm border p-4">
-                    <h3 className="font-semibold mb-3">Top Sellers</h3>
+                    <h3 className="font-semibold mb-3">{t("Top Sellers")}</h3>
                     <div className="h-64">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={topSellers} margin={{ left: -10, right: 10 }}>
@@ -109,43 +111,43 @@ export default function Dashboard({
             </div>
 
             <div className="bg-white rounded-2xl shadow-sm border p-4">
-                <h3 className="font-semibold mb-3">Active Orders</h3>
+                <h3 className="font-semibold mb-3">{t("Active Orders")}</h3>
                 <div className="overflow-x-auto">
                     <table className="min-w-full text-sm">
                         <thead>
-                        <tr className="text-left text-slate-500">
-                            <th className="py-2">Order</th>
-                            <th>Table</th>
-                            <th>Items</th>
-                            <th>Total</th>
-                            <th>Created</th>
-                        </tr>
+                            <tr className="text-left text-slate-500">
+                                <th className="py-2">{t("Order")}</th>
+                                <th>{t("Table")}</th>
+                                <th>{t("Items")}</th>
+                                <th>{t("Total")}</th>
+                                <th>{t("Created")}</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {activeOrders.length === 0 && (
-                            <tr>
-                                <td colSpan={5} className="py-6 text-center text-slate-500">No active orders.</td>
-                            </tr>
-                        )}
-                        {activeOrders.map(o => (
-                            <tr key={o.id} className="border-t">
-                                <td className="py-2 font-medium">#{o.id.slice(0, 6)}</td>
-                                <td>{o.tableId}</td>
-                                <td>
-                                    {o.items.map((it, idx) => {
-                                        const mi = menuIndex[it.menuItemId]
-                                        return (
-                                            <span key={idx} className="inline-block mr-2">
-                          {it.qty}× {mi?.name}
-                                                {it.modifierName ? ` (${it.modifierName})` : ''}
-                        </span>
-                                        )
-                                    })}
-                                </td>
-                                <td className="font-semibold">{currency(computeOrderTotal(o, menuIndex))}</td>
-                                <td>{new Date(o.createdAt).toLocaleTimeString()}</td>
-                            </tr>
-                        ))}
+                            {activeOrders.length === 0 && (
+                                <tr>
+                                    <td colSpan={5} className="py-6 text-center text-slate-500">{t("No active orders.")}</td>
+                                </tr>
+                            )}
+                            {activeOrders.map(o => (
+                                <tr key={o.id} className="border-t">
+                                    <td className="py-2 font-medium">#{o.id.slice(0, 6)}</td>
+                                    <td>{o.tableId}</td>
+                                    <td>
+                                        {o.items.map((it, idx) => {
+                                            const mi = menuIndex[it.menuItemId]
+                                            return (
+                                                <span key={idx} className="inline-block mr-2">
+                                                    {it.qty}× {mi?.name}
+                                                    {it.modifierName ? ` (${it.modifierName})` : ''}
+                                                </span>
+                                            )
+                                        })}
+                                    </td>
+                                    <td className="font-semibold">{currency(computeOrderTotal(o, menuIndex))}</td>
+                                    <td>{new Date(o.createdAt).toLocaleTimeString()}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
