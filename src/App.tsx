@@ -35,17 +35,19 @@
 // =============================================================================
 
 import { useEffect, useMemo, useState } from 'react'
-import type {MenuItem, Order, Table} from "./model/Types.ts";
-import {uid} from "./model/Utils.ts";
-import {seedMenu, seedOrders, seedTables} from "./model/SeedData.ts";
-import {loadState, saveState} from "./model/Storage.ts";
+import type { MenuItem, Order, Table } from "./model/Types.ts";
+import { uid } from "./model/Utils.ts";
+import { seedMenu, seedOrders, seedTables } from "./model/SeedData.ts";
+import { loadState, saveState } from "./model/Storage.ts";
 import TableManager from "./components/TableManager.tsx";
 import Header from "./components/Header.tsx";
-import Dashboard from "./components/Dashbard.tsx";
+import Dashboard from "./components/Dashboard.tsx";
 import MenuManager from "./components/MenuManager.tsx";
+import { useTranslation } from "react-i18next";
 
 // -------------------------- App --------------------------
 export default function App() {
+    const { t } = useTranslation();
     const persisted = loadState()
     const [menuItems, setMenuItems] = useState<MenuItem[]>(persisted?.menuItems ?? seedMenu)
     const [tables, setTables] = useState<Table[]>(persisted?.tables ?? seedTables)

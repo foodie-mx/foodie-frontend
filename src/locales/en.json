@@ -22,6 +22,10 @@
     "Delete": "Delete",
     "Edit Item": "Edit Item",
     "New Item": "New Item",
+    "All Tables": "All Tables",
+    "Available": "Available",
+    "Occupied": "Occupied",
+    "Needs Cleaning": "Needs Cleaning",
     "Base Price": "Base Price",
     "Add": "Add",
     "Save": "Save",
@@ -36,5 +40,7 @@
     "Mark Served": "Mark Served",
     "Mark Paid": "Mark Paid",
     "Mark Clean": "Mark Clean",
-    "No orders.": "No orders."
+    "No orders.": "No orders.",
+    "Table Manager": "Table Manager",
+    "Dashboard": "Dashboard"
 }

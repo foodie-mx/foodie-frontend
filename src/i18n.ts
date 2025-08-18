@@ -2,15 +2,16 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 import en from './locales/en.json';
+import es from './locales/es.json';
 
 i18n
   .use(initReactI18next)
   .init({
     resources: {
       en: { translation: en },
-      // Add other languages here
+      es: { translation: es },
     },
-    lng: 'en',
+    lng: 'es', // <-- set default language to Spanish
     fallbackLng: 'en',
     interpolation: { escapeValue: false },
   });
