@@ -46,8 +46,8 @@ const TableManager = ({
         setComposerItems([])
     }
 
-    const inc = (idx: number) => setComposerItems(is => is.map((it, i) => (i === idx ? { ...it, qty: it.qty + 1 } : it)))
-    const dec = (idx: number) => setComposerItems(is => is.flatMap((it, i) => (i === idx ? (it.qty > 1 ? [{ ...it, qty: it.qty - 1 }] : []) : [it])))
+    const inc = (idx: number) => setComposerItems(orderItems => orderItems.map((it, i) => (i === idx ? { ...it, qty: it.qty + 1 } : it)))
+    const dec = (idx: number) => setComposerItems(orderItems => orderItems.flatMap((it, i) => (i === idx ? (it.qty > 1 ? [{ ...it, qty: it.qty - 1 }] : []) : [it])))
 
     const tableStatusOptions: { key: TableStatusFilter, label: string }[] = [
         { key: 'all', label: t('All Tables') },
