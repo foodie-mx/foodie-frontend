@@ -1,9 +1,10 @@
 // -------------------------- Table & Order Manager --------------------------
-import type { MenuItem, Order, OrderItem, Table } from "../model/Types.ts";
+import type { MenuItem, Order, OrderItem, Table, TableStatusFilter } from "../model/Types.ts";
 import { useState } from "react";
 import { currency } from "../model/Utils.ts";
 import { useTranslation } from "react-i18next";
 import OrderBoard from "./OrderBoard.tsx";
+import TablesPanel from "./TablesPanel.tsx";
 
 const TableManager = ({
     tables,
@@ -25,9 +26,7 @@ const TableManager = ({
     const { t } = useTranslation();
     const [selectedTable, setSelectedTable] = useState<string>('')
     const [composerItems, setComposerItems] = useState<OrderItem[]>([])
-    const [filter, setFilter] = useState<'all' | 'available' | 'occupied' | 'needs_cleaning'>('all')
-
-    const visibleTables = tables.filter(t => (filter === 'all' ? true : t.status === filter))
+    const [filter, setFilter] = useState<TableStatusFilter>('all')
 
     const tableOrders = (tableId: string) => orders.filter(o => o.tableId === tableId)
 
@@ -50,7 +49,7 @@ const TableManager = ({
     const inc = (idx: number) => setComposerItems(is => is.map((it, i) => (i === idx ? { ...it, qty: it.qty + 1 } : it)))
     const dec = (idx: number) => setComposerItems(is => is.flatMap((it, i) => (i === idx ? (it.qty > 1 ? [{ ...it, qty: it.qty - 1 }] : []) : [it])))
 
-    const tableStatusOptions: { key: 'all' | 'available' | 'occupied' | 'needs_cleaning', label: string }[] = [
+    const tableStatusOptions: { key: TableStatusFilter, label: string }[] = [
         { key: 'all', label: t('All Tables') },
         { key: 'available', label: t('Available') },
         { key: 'occupied', label: t('Occupied') },
@@ -61,41 +60,16 @@ const TableManager = ({
         <section className="space-y-6">
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                 {/* Tables Panel */}
-                <div className="xl:col-span-2 space-y-4">
-                    <div className="flex items-center justify-between">
-                        <h3 className="font-semibold">{t("Tables")}</h3>
-                        <div className="flex gap-2">
-                            {tableStatusOptions.map(f => (
-                                <button
-                                    key={f.key}
-                                    onClick={() => setFilter(f.key)}
-                                    className={`px-3 py-1 rounded-lg text-sm ${filter === f.key ? 'bg-slate-900 text-white' : 'bg-slate-100'}`}
-                                >
-                                    {f.label}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {visibleTables.map(tl => (
-                            <div key={tl.id} className="bg-white rounded-2xl shadow-sm border p-4 flex flex-col gap-2">
-                                <div className="flex items-center justify-between">
-                                    <div className="font-semibold">{tl.name}</div>
-                                    <span className={`text-xs px-2 py-1 rounded-full ${tl.status === 'available' ? 'bg-emerald-100 text-emerald-700' : tl.status === 'occupied' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700'}`}>
-                                        {tableStatusOptions.find(opt => opt.key === tl.status)?.label}
-                                    </span>
-                                </div>
-                                <div className="flex gap-2">
-                                    <button onClick={() => setSelectedTable(tl.id)} className={`flex-1 px-3 py-2 rounded-xl ${selectedTable === tl.id ? 'bg-indigo-600 text-white' : 'bg-slate-100'}`}>{t("Select")}</button>
-                                    {tl.status === 'needs_cleaning' && (
-                                        <button onClick={() => onMarkTableClean(tl.id)} className="px-3 py-2 rounded-xl bg-emerald-600 text-white">{t("Mark Clean")}</button>
-                                    )}
-                                </div>
-                                <div className="text-xs text-slate-500">{t("Orders")}: {tableOrders(tl.id).length}</div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                <TablesPanel
+                    tables={tables}
+                    filter={filter}
+                    setFilter={setFilter}
+                    selectedTable={selectedTable}
+                    setSelectedTable={setSelectedTable}
+                    onMarkTableClean={onMarkTableClean}
+                    tableOrders={tableOrders}
+                    tableStatusOptions={tableStatusOptions}
+                />
 
                 {/* Composer */}
                 <div className="bg-white rounded-2xl shadow-sm border p-4 space-y-3">

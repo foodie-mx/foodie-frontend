@@ -28,3 +28,5 @@ export type Order = {
     status: 'in_progress' | 'served' | 'paid'
     createdAt: string // ISO
 }
+
+export type TableStatusFilter = 'all' | 'available' | 'occupied' | 'needs_cleaning'
