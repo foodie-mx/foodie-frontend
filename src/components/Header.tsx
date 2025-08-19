@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 export default function Header({ tab, setTab }: { tab: 'dashboard' | 'menu' | 'tables'; setTab: (t: 'dashboard' | 'menu' | 'tables') => void }) {
     const { t } = useTranslation();
 
-    const tabs = [
+    const tabs: { id: 'dashboard' | 'menu' | 'tables'; label: string }[] = [
         { id: 'dashboard', label: t('Dashboard') },
         { id: 'menu', label: t('Menu Manager') },
         { id: 'tables', label: t('Table Manager') },
