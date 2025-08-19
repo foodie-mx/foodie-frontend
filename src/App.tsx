@@ -43,11 +43,9 @@ import TableManager from "./components/TableManager.tsx";
 import Header from "./components/Header.tsx";
 import Dashboard from "./components/Dashboard.tsx";
 import MenuManager from "./components/MenuManager.tsx";
-import { useTranslation } from "react-i18next";
 
 // -------------------------- App --------------------------
 export default function App() {
-    const { t } = useTranslation();
     const persisted = loadState()
     const [menuItems, setMenuItems] = useState<MenuItem[]>(persisted?.menuItems ?? seedMenu)
     const [tables, setTables] = useState<Table[]>(persisted?.tables ?? seedTables)

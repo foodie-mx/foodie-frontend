@@ -1,9 +1,9 @@
 // -------------------------- Table & Order Manager --------------------------
 import type { MenuItem, Order, OrderItem, Table } from "../model/Types.ts";
 import { useState } from "react";
-import { computeOrderTotal, currency } from "../model/Utils.ts";
+import { currency } from "../model/Utils.ts";
 import { useTranslation } from "react-i18next";
-import OrderBoard from "./OrderBoard";
+import OrderBoard from "./OrderBoard.tsx";
 
 const TableManager = ({
     tables,
@@ -50,7 +50,7 @@ const TableManager = ({
     const inc = (idx: number) => setComposerItems(is => is.map((it, i) => (i === idx ? { ...it, qty: it.qty + 1 } : it)))
     const dec = (idx: number) => setComposerItems(is => is.flatMap((it, i) => (i === idx ? (it.qty > 1 ? [{ ...it, qty: it.qty - 1 }] : []) : [it])))
 
-    const filterOptions: { key: 'all' | 'available' | 'occupied' | 'needs_cleaning', label: string }[] = [
+    const tableStatusOptions: { key: 'all' | 'available' | 'occupied' | 'needs_cleaning', label: string }[] = [
         { key: 'all', label: t('All Tables') },
         { key: 'available', label: t('Available') },
         { key: 'occupied', label: t('Occupied') },
@@ -65,7 +65,7 @@ const TableManager = ({
                     <div className="flex items-center justify-between">
                         <h3 className="font-semibold">{t("Tables")}</h3>
                         <div className="flex gap-2">
-                            {filterOptions.map(f => (
+                            {tableStatusOptions.map(f => (
                                 <button
                                     key={f.key}
                                     onClick={() => setFilter(f.key)}
@@ -81,8 +81,9 @@ const TableManager = ({
                             <div key={tl.id} className="bg-white rounded-2xl shadow-sm border p-4 flex flex-col gap-2">
                                 <div className="flex items-center justify-between">
                                     <div className="font-semibold">{tl.name}</div>
-                                    <span className={`text-xs px-2 py-1 rounded-full ${tl.status === 'available' ? 'bg-emerald-100 text-emerald-700' : tl.status === 'occupied' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700'
-                                        }`}>{t(tl.status.replace('_', ' '))}</span>
+                                    <span className={`text-xs px-2 py-1 rounded-full ${tl.status === 'available' ? 'bg-emerald-100 text-emerald-700' : tl.status === 'occupied' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700'}`}>
+                                        {tableStatusOptions.find(opt => opt.key === tl.status)?.label}
+                                    </span>
                                 </div>
                                 <div className="flex gap-2">
                                     <button onClick={() => setSelectedTable(tl.id)} className={`flex-1 px-3 py-2 rounded-xl ${selectedTable === tl.id ? 'bg-indigo-600 text-white' : 'bg-slate-100'}`}>{t("Select")}</button>
